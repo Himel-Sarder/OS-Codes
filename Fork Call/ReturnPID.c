@@ -16,6 +16,17 @@ int main(){
     return 0;
 }
 
+// Output :
+// Desktop/ $ ./ReturnPID
+// Parent : 1863
+// Child : 0
+// Desktop/ $ ./ReturnPID
+// Parent : 1876
+// Child : 0                                                                       
+// Desktop/ $ ./ReturnPID
+// Parent : 1889
+// Child : 0
+
 
 /*
 ---------------------------------------------------------------------------------------------------------
