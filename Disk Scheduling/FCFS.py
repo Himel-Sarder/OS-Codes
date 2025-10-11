@@ -2,14 +2,15 @@ def FCFS(requests, head):
     total_movement = 0
     current = head
 
-    print("Order of service:")
+    print("Path:", current, end="")
 
     for req in requests:
-        print(f"{current} -> {req}")
-        total_movement += abs(req - current) 
+        total_movement += abs(req - current)
+        print(f" -> {req}", end="")
         current = req
 
     print(f"\nTotal head movement: {total_movement}")
+
 
 requests = [82, 170, 43, 140, 24, 16, 190]
 head = 50
