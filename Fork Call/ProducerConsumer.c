@@ -123,6 +123,9 @@ MAP_ANONYMOUS → এই memory কোনো file থেকে আসেনি, 
         while (1) {   // Producer কখনো থামে না — সে বারবার buffer এ data দিতে চেষ্টা করবে (infinite loop)।
             if (*count < SIZE) {  // Producer প্রথমে চেক করে ➡ buffer এ এখনও জায়গা আছে কিনা?   count < SIZE মানে — "টেবিলে এখনো খালি প্লেট আছে"     যদি buffer ফুল (count == SIZE) হয়, তবে Producer অপেক্ষা করবে (কিছু করবে না)।
                 int item = rand() % 100;  // Producer random একটা সংখ্যা তৈরি করে (0 থেকে 99-এর মধ্যে)।    ভাবো — Producer একটা random খাবার রান্না করল
+                // 3 Digit Random number -> int item = (rand() % 900) + 100;
+                // 4 Digit -> int item = (rand() % 9000) + 1000;
+                // 1 Digit -> int item = rand() % 10;
                 buffer[in] = item; // Producer খাবারটা buffer[in] অবস্থানে রাখল।
                 printf("Producer produced: %d at index %d\n", item, in);   // Producer বলছে ➡ আমি index %d তে %d আইটেম রাখলাম
                 in = (in + 1) % SIZE; // Producer বলল ➡ "পরের বার পরের জায়গায় রাখবো।" (Circular Buffer Logic)     আবার 0 তে ফিরে আসবে (কারণ % SIZE ব্যবহার হয়েছে)
