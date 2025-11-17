@@ -1,50 +1,44 @@
-n = int(input("Enter no of process : "))
+n_p = int(input("Enter no of P : "))
 
 AT = []
 BT = []
 
-WT = [0] * n
-TAT = [0] * n
-
-gantt = []
-current = 0
-
-for i in range(n):
-    at = int(input(f"Enter arrival time for P{i} : "))
+for i in range(n_p):
+    at = int(input(f"Enter AT for P{i} : "))
     AT.append(at)
-    bt = int(input(f"Enter Burst time for P{i} : "))
+    bt = int(input(f"Enter BT for P{i} : "))
     BT.append(bt)
 
-remaining = list(range(n))
+process = list(range(n_p))
+gantt = []
+TAT = [0] * n_p
+WT = [0] * n_p
+current = 0
 
-while remaining:
-    # Available process selection
-    available = [p for p in remaining if AT[p] <= current]
-    
+while process:
+    available = [p for p in process if current >= AT[p]]
     if available:
-        # Pick the one with shortest burst
-        p = min(available, key=lambda x: BT[x])
-        gantt.append(f"P{p}")
+        p = min(available, key=lambda x: (BT[x], AT[x]))
         current += BT[p]
         TAT[p] = current - AT[p]
         WT[p] = TAT[p] - BT[p]
-        remaining.remove(p)
+        gantt.append(f"P{p}")
+        process.remove(p)
     else:
-        gantt.append("Idle")
+        gantt.append("ideal")
         current += 1
 
-# Output Gantt chart
-print("Gantt chart:")
-print(" -> ".join(gantt))
 
-# Compute average times
-AWT = sum(WT) / n
-ATT = sum(TAT) / n
+print("Gantt chart ")
+print(" -> " .join(gantt))
 
-# Process table
-print("\nProcess\tArrival\tBurst\tWaiting\tTurnaround")
-for i in range(n):
-    print(f"P{i}\t{AT[i]}\t{BT[i]}\t{WT[i]}\t{TAT[i]}")
+# Compute and print ATT and AWT
+AWT = sum(WT) / n_p
+ATT = sum(TAT) / n_p
+
+print("\nProcess\tArrival\t\t\tBurst\t\tWaiting\t\tTurnaround")
+for i in range(n_p):
+    print(f"P{i}\t\t\t{AT[i]}\t\t\t{BT[i]}\t\t\t{WT[i]}\t\t\t{TAT[i]}")
 
 print(f"\nAverage Waiting Time (AWT): {AWT:.2f}")
 print(f"Average Turnaround Time (ATT): {ATT:.2f}")

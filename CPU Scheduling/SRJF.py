@@ -14,18 +14,24 @@ gantt = []
 TAT = [0] * n_p
 WT = [0] * n_p
 current = 0
-process.sort(key=lambda x: AT[x])
+BTC = BT.copy()
 
-for p in process:
-    if AT[p] > current:
+while process:
+    available = [p for p in process if current >= AT[p]]
+    if available:
+        p = min(available, key=lambda x: (BTC[x], AT[x]))
+        current += 1
+        BTC[p] -= 1
+        gantt.append(f"P{p}")
+        if BTC[p] == 0:
+            TAT[p] = current - AT[p]
+            WT[p] = TAT[p] - BT[p]
+
+            process.remove(p)
+    else:
         gantt.append("ideal")
-        current = AT[p]
+        current += 1
 
-    current += BT[p]
-    TAT[p] = current - AT[p]
-    WT[p] = TAT[p] - BT[p]
-    gantt.append(f"P{p}")
-    
 
 print("Gantt chart ")
 print(" -> " .join(gantt))
